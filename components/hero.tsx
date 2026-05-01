@@ -35,7 +35,7 @@ const slides = [
 
 export default function Hero() {
   const [current, setCurrent] = useState(0)
-  const [isMuted, setIsMuted] = useState(false)
+  const [isMuted, setIsMuted] = useState(true)
   const [isPlaying, setIsPlaying] = useState(true)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
