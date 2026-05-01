@@ -35,7 +35,7 @@ const slides = [
 
 export default function Hero() {
   const [current, setCurrent] = useState(0)
-  const [isMuted, setIsMuted] = useState(true)
+  const [isMuted, setIsMuted] = useState(false)
   const [isPlaying, setIsPlaying] = useState(true)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
@@ -117,7 +117,7 @@ export default function Hero() {
                 {slides[current].subtitle}
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 mt-4">
+              <div className="flex flex-col sm:flex-row items-start gap-4 mt-4">
                 <a href="#about" className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-blue-600 text-white text-sm font-bold tracking-widest uppercase hover:bg-blue-700 transition-all duration-300 group">
                   Selengkapnya
                   <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -161,7 +161,7 @@ export default function Hero() {
             </div>
 
             {/* Media Controls (Play/Pause & Mute/Unmute) */}
-            <div className="flex items-center gap-2 sm:gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 mr-20 sm:mr-0">
               {/* Tombol Play/Pause untuk HP & Desktop */}
               <button
                 onClick={() => setIsPlaying(!isPlaying)}
