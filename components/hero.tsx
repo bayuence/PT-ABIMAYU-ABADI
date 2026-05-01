@@ -77,7 +77,7 @@ export default function Hero() {
               ref={iframeRef}
               key={slides[current].youtubeId} // Hanya reload video jika Link YouTube-nya berbeda
               className="w-full h-full"
-              src={`https://www.youtube.com/embed/${slides[current].youtubeId}?autoplay=1&mute=${isMuted ? 1 : 0}&controls=0&loop=1&playlist=${slides[current].youtubeId}&modestbranding=1&rel=0&playsinline=1&enablejsapi=1`}
+              src={`https://www.youtube.com/embed/${slides[current].youtubeId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${slides[current].youtubeId}&modestbranding=1&rel=0&playsinline=1&enablejsapi=1`}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               title="Background Video"
             />
