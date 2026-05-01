@@ -87,8 +87,8 @@ export default function Hero() {
         )}
       </div>
 
-      {/* Dark Overlay - Gradient dari kiri untuk readability text */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent z-10 pointer-events-none" />
+      {/* Dark Overlay - Disesuaikan untuk Mobile (Vertical) & Desktop (Horizontal) */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/80 sm:bg-gradient-to-r sm:from-black/90 sm:via-black/60 sm:to-transparent z-10 pointer-events-none" />
       <div className="absolute inset-0 bg-black/20 z-10 pointer-events-none" />
 
       {/* Main Content */}
@@ -118,9 +118,9 @@ export default function Hero() {
               </p>
 
               <div className="flex flex-col sm:flex-row items-start gap-4 mt-4">
-                <a href="#about" className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-blue-600 text-white text-sm font-bold tracking-widest uppercase hover:bg-blue-700 transition-all duration-300 group">
+                <a href="#about" className="inline-flex items-center justify-center gap-2 sm:gap-3 px-5 py-3 sm:px-8 sm:py-4 bg-blue-600 text-white text-[11px] sm:text-sm font-bold tracking-widest uppercase hover:bg-blue-700 transition-all duration-300 group rounded-md sm:rounded-none">
                   Selengkapnya
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight size={16} className="sm:w-[18px] sm:h-[18px] group-hover:translate-x-1 transition-transform" />
                 </a>
               </div>
             </motion.div>
