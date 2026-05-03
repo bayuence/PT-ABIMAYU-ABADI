@@ -67,7 +67,7 @@ export default function Hero() {
   }, [isMuted])
 
   return (
-    <section id="hero" className="relative w-full h-screen overflow-hidden bg-black snap-start">
+    <section id="hero" className="relative w-full h-screen overflow-hidden theme-bg-primary snap-start">
 
       {/* Background YouTube Videos via Native iFrame (Anti-Crash Next.js) */}
       <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-0">
@@ -109,11 +109,11 @@ export default function Hero() {
                 </span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[68px] font-bold leading-[1.1] tracking-tight text-white mb-6">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[68px] font-bold leading-[1.1] tracking-tight theme-text-heading mb-6">
                 {slides[current].title}
               </h1>
 
-              <p className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed mb-10 max-w-2xl font-light">
+              <p className="text-base sm:text-lg md:text-xl theme-text-body leading-relaxed mb-10 max-w-2xl font-light">
                 {slides[current].subtitle}
               </p>
 
@@ -152,7 +152,7 @@ export default function Hero() {
                       />
                     )}
                   </div>
-                  <h3 className={`text-[10px] sm:text-xs md:text-sm font-semibold tracking-wider transition-colors duration-300 line-clamp-1 uppercase ${current === index ? 'text-white' : 'text-gray-500 group-hover:text-gray-300'
+                  <h3 className={`text-[10px] sm:text-xs md:text-sm font-semibold tracking-wider transition-colors duration-300 line-clamp-1 uppercase ${current === index ? 'theme-text-heading' : 'theme-text-muted group-hover:theme-text-body'
                     }`}>
                     {slide.title}
                   </h3>
@@ -165,7 +165,7 @@ export default function Hero() {
               {/* Tombol Play/Pause untuk HP & Desktop */}
               <button
                 onClick={() => setIsPlaying(!isPlaying)}
-                className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-white/30 text-white/70 hover:text-white hover:border-white transition-all backdrop-blur-sm"
+                className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full border theme-border theme-text-muted hover:theme-text-heading transition-all backdrop-blur-sm"
                 aria-label="Toggle Play"
               >
                 {isPlaying ? <Pause size={14} className="sm:w-4 sm:h-4" /> : <Play size={14} className="sm:w-4 sm:h-4" />}
@@ -174,7 +174,7 @@ export default function Hero() {
               {/* Tombol Audio */}
               <button
                 onClick={() => setIsMuted(!isMuted)}
-                className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-white/30 text-white/70 hover:text-white hover:border-white transition-all backdrop-blur-sm"
+                className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full border theme-border theme-text-muted hover:theme-text-heading transition-all backdrop-blur-sm"
                 aria-label="Toggle Audio"
               >
                 {isMuted ? <VolumeX size={14} className="sm:w-4 sm:h-4" /> : <Volume2 size={14} className="sm:w-4 sm:h-4" />}

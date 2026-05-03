@@ -44,7 +44,7 @@ export default function Navbar() {
               </div>
               <div className="hidden sm:block">
                 {/* Judul PT - Memaksa Putih jika di paling atas, mengikuti theme jika sudah scroll */}
-                <p className={`text-[13px] font-bold leading-tight tracking-wide transition-colors duration-300 ${isScrolled ? 'theme-text-heading' : 'text-white'}`}>
+                <p className={`text-[13px] font-bold leading-tight tracking-wide transition-colors duration-300 ${isScrolled ? 'theme-text-heading' : 'theme-text-heading'}`}>
                   PT. ABIMANYU ABADI
                 </p>
                 <p className="text-[10px] font-medium theme-gold tracking-[0.15em]">
@@ -62,7 +62,7 @@ export default function Navbar() {
                   className={`relative px-4 py-2 text-[13px] font-medium transition-colors duration-300 group ${
                     isScrolled 
                       ? 'theme-text-body hover:theme-text-heading' 
-                      : 'text-white/80 hover:text-white' // <--- Memaksa putih saat transparan
+                      : 'theme-text-body hover:theme-text-heading'
                   }`}
                 >
                   {link.label}
@@ -79,7 +79,7 @@ export default function Navbar() {
                 className={`flex items-center justify-center transition-colors duration-300 ${
                   isScrolled
                     ? 'theme-text-muted hover:theme-text-heading'
-                    : 'text-white/80 hover:text-white'
+                    : theme === 'dark' ? 'text-white/80 hover:text-white' : 'text-slate-300 hover:text-white'
                 }`}
                 aria-label="Toggle theme"
               >
@@ -106,7 +106,7 @@ export default function Navbar() {
                 className={`flex items-center justify-center transition-colors duration-300 ${
                   isScrolled
                     ? 'theme-text-muted hover:theme-text-heading'
-                    : 'text-white/80 hover:text-white'
+                    : 'theme-text-muted hover:theme-text-heading'
                 }`}
                 aria-label="Toggle theme"
               >

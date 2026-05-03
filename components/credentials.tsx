@@ -78,9 +78,9 @@ export default function Credentials() {
   return (
     <section
       id="credentials"
-      className="section-base relative w-full bg-[#0A1628] py-24 md:py-36 px-4"
+      className="section-base relative w-full theme-bg-secondary py-24 md:py-36 px-4"
     >
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#4A90D9]/15 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--divider)] to-transparent" />
       <div className="absolute bottom-[20%] right-0 w-[500px] h-[500px] bg-[#C9A84C]/[0.02] rounded-full blur-[120px]" />
       <div className="noise-overlay" />
 
@@ -96,11 +96,11 @@ export default function Credentials() {
             <div className="lg:sticky lg:top-32">
               <p className="section-label mb-4">MENGAPA MEMILIH KAMI</p>
               <div className="gold-line mb-6" />
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+              <h2 className="text-4xl md:text-5xl font-bold theme-text-heading mb-6 leading-tight">
                 Track Record{' '}
                 <span className="gradient-text">Terbukti</span>
               </h2>
-              <p className="text-[#8FA3C0] text-base md:text-lg leading-relaxed mb-14">
+              <p className="theme-text-body text-base md:text-lg leading-relaxed mb-14">
                 Dengan pengalaman lebih dari satu dekade, kami telah menunjukkan
                 komitmen terhadap keunggulan. Klien korporat kami mempercayai kami
                 karena kami konsisten memberikan hasil yang melampaui ekspektasi.
@@ -118,7 +118,7 @@ export default function Credentials() {
                     className="space-y-2"
                   >
                     <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-                    <p className="text-[#64748B] text-sm font-medium">
+                    <p className="theme-text-muted text-sm font-medium">
                       {stat.label}
                     </p>
                   </motion.div>
@@ -161,10 +161,10 @@ export default function Credentials() {
 
                   {/* Content */}
                   <div>
-                    <h3 className="text-base font-bold text-white mb-1.5 tracking-wide group-hover:text-[#60A5FA] transition-colors duration-300">
+                    <h3 className="text-base font-bold theme-text-heading mb-1.5 tracking-wide group-hover:theme-accent transition-colors duration-300">
                       {cred.title}
                     </h3>
-                    <p className="text-[#8FA3C0] text-sm leading-relaxed">
+                    <p className="theme-text-body text-sm leading-relaxed">
                       {cred.description}
                     </p>
                   </div>
