@@ -13,7 +13,7 @@ const slides = [
     subtitle: 'Membangun infrastruktur berkualitas dengan standar korporat tier-1 untuk berbagai sektor industri di seluruh Indonesia.',
     youtubeId: 'qTexXG4VGNw',
     tag: 'GENERAL CONTRACTOR',
-    duration: 350000000, // Ganti durasi ini agar pas dengan video Anda (35000 = 35 detik)
+    duration: 35000, // 35 detik
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ const slides = [
     subtitle: 'Komitmen teguh pada penyelesaian proyek tepat waktu, spesifikasi material terbaik, dan standar keselamatan kerja (HSE) yang ketat.',
     youtubeId: 'k6HQqqq62bU',
     tag: 'KUALITAS TERJAMIN',
-    duration: 200000000, // Contoh: Slide ini pindah setelah 20 detik
+    duration: 20000, // 20 detik
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ const slides = [
     subtitle: 'Mendukung visi pembangunan masa depan melalui pendekatan konstruksi modern, efisien, dan berwawasan lingkungan.',
     youtubeId: 'k6HQqqq62bU',
     tag: 'PROJECT MANAGEMENT',
-    duration: 25000000, // Contoh: Slide ini pindah setelah 25 detik
+    duration: 25000, // 25 detik
   }
 ]
 
