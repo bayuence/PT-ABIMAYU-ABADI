@@ -72,7 +72,7 @@ export default function Hero() {
       {/* Background YouTube Videos via Native iFrame (Anti-Crash Next.js) */}
       <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-0">
         {slides[current].youtubeId ? (
-          <div className="absolute top-1/2 left-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] -translate-x-1/2 -translate-y-1/2 scale-105 sm:scale-110">
+          <div className="absolute top-1/2 left-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] -translate-x-1/2 -translate-y-1/2 scale-[1.4] sm:scale-[1.2]">
             <iframe
               ref={iframeRef}
               key={slides[current].youtubeId} // Hanya reload video jika Link YouTube-nya berbeda
