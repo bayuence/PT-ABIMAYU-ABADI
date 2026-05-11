@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog'
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel'
 import { X } from 'lucide-react'
 import Image from 'next/image'
+import type { CarouselApi } from '@/components/ui/carousel'
 
 interface PortfolioGalleryModalProps {
   projectId: number
@@ -21,6 +22,20 @@ export default function PortfolioGalleryModal({
   onClose,
 }: PortfolioGalleryModalProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [carouselApi, setCarouselApi] = useState<CarouselApi>()
+
+  useEffect(() => {
+    if (!carouselApi) return
+
+    const handleSelect = () => {
+      setCurrentIndex(carouselApi.selectedScrollSnap())
+    }
+
+    carouselApi.on('select', handleSelect)
+    return () => {
+      carouselApi.off('select', handleSelect)
+    }
+  }, [carouselApi])
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
@@ -59,8 +74,8 @@ export default function PortfolioGalleryModal({
               align: 'center',
               loop: true,
             }}
+            setApi={setCarouselApi}
             className="w-full"
-            onIndexChange={(index) => setCurrentIndex(index)}
           >
             <CarouselContent className="m-0">
               {images.map((image, index) => (
