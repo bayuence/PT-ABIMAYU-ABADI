@@ -35,17 +35,20 @@ export default function Services() {
             return (
               <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.08 }} viewport={{ once: true, margin: '-50px' }}
-                className="theme-bg-card border theme-border rounded-2xl p-7 group cursor-pointer hover:border-[var(--accent)] hover:shadow-lg transition-all duration-300">
-                <div className="mb-5">
-                  <div className="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center">
+                className="theme-bg-card border theme-border rounded-2xl p-7 group cursor-pointer hover:border-[var(--accent)] transition-all duration-300 card-hover relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/0 to-[var(--accent)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative z-10 mb-5">
+                  <motion.div whileHover={{ scale: 1.1, rotate: 5 }} className="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center group-hover:bg-[var(--accent)]/20 transition-colors duration-300">
                     <Icon className="w-5 h-5 theme-accent" strokeWidth={1.5} />
-                  </div>
+                  </motion.div>
                 </div>
-                <h3 className="text-lg font-bold theme-text-heading mb-3 group-hover:theme-accent transition-colors duration-300">{service.title}</h3>
-                <p className="theme-text-body text-sm leading-relaxed mb-5">{service.description}</p>
-                <div className="flex items-center gap-1.5 theme-accent text-sm font-semibold group-hover:gap-2.5 transition-all duration-300">
+                <h3 className="text-lg font-bold theme-text-heading mb-3 group-hover:theme-accent transition-colors duration-300 relative z-10">{service.title}</h3>
+                <p className="theme-text-body text-sm leading-relaxed mb-5 relative z-10">{service.description}</p>
+                <div className="flex items-center gap-1.5 theme-accent text-sm font-semibold group-hover:gap-2.5 transition-all duration-300 relative z-10">
                   <span>Pelajari</span>
-                  <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+                  <motion.div whileHover={{ x: 3, y: -3 }}>
+                    <ArrowUpRight size={14} className="transition-transform duration-300" />
+                  </motion.div>
                 </div>
               </motion.div>
             )

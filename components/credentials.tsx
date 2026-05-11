@@ -142,22 +142,27 @@ export default function Credentials() {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 + i * 0.1 }}
                 viewport={{ once: true, margin: '-50px' }}
-                className="glass-card p-6 group cursor-default overflow-hidden relative"
+                className="glass-card p-6 group cursor-default overflow-hidden relative card-hover"
+                whileHover={{ scale: 1.02 }}
               >
-                {/* Left gradient accent */}
-                <div
+                {/* Left gradient accent with animation */}
+                <motion.div
                   className={`absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b ${cred.accent} opacity-60 group-hover:opacity-100 transition-opacity duration-300`}
+                  whileHover={{ scaleY: 1.1 }}
                 />
 
-                <div className="flex items-start gap-5 pl-4">
-                  {/* Number Badge */}
-                  <div className="flex-shrink-0">
+                {/* Animated background on hover */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/0 to-transparent opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+
+                <div className="flex items-start gap-5 pl-4 relative z-10">
+                  {/* Number Badge with rotation */}
+                  <motion.div className="flex-shrink-0" whileHover={{ rotate: 5, scale: 1.1 }} transition={{ type: 'spring', stiffness: 300 }}>
                     <div
                       className={`w-12 h-12 rounded-xl bg-gradient-to-br ${cred.accent} flex items-center justify-center font-bold text-white text-lg shadow-lg`}
                     >
                       {cred.number}
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Content */}
                   <div>

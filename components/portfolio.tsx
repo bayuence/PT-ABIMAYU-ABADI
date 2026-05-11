@@ -59,12 +59,13 @@ export default function Portfolio() {
               return (
                 <motion.div key={project.id} layout initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.3 }}
-                  className="theme-bg-card border theme-border rounded-2xl group cursor-pointer overflow-hidden hover:border-[var(--accent)] hover:shadow-lg transition-all duration-300">
+                  className="theme-bg-card border theme-border rounded-2xl group cursor-pointer overflow-hidden hover:border-[var(--accent)] transition-all duration-300 card-hover">
                   <div className="relative h-48 overflow-hidden theme-bg-primary">
                     <div className="blueprint-grid" />
-                    <div className={`absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${badge}`}>{project.category}</div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className={`absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${badge} transition-all duration-300 group-hover:scale-110`}>{project.category}</div>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-12 h-12 rounded-xl bg-[var(--accent)]/5 border border-[var(--accent)]/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                      <div className="w-12 h-12 rounded-xl bg-[var(--accent)]/5 border border-[var(--accent)]/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500 group-hover:bg-[var(--accent)]/20">
                         <ArrowUpRight className="w-5 h-5 theme-text-muted group-hover:theme-accent transition-colors duration-300" />
                       </div>
                     </div>
@@ -72,7 +73,7 @@ export default function Portfolio() {
                   <div className="p-5 border-t theme-border-subtle">
                     <h3 className="theme-text-heading font-semibold text-sm mb-3 group-hover:theme-accent transition-colors">{project.name}</h3>
                     <div className="flex items-center gap-4 theme-text-muted text-xs">
-                      <span className="flex items-center gap-1.5"><MapPin size={12} />{project.location}</span>
+                      <span className="flex items-center gap-1.5 transition-all duration-300 group-hover:translate-x-1"><MapPin size={12} />{project.location}</span>
                       <span className="flex items-center gap-1.5"><Calendar size={12} />{project.year}</span>
                     </div>
                   </div>

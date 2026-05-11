@@ -44,25 +44,25 @@ export default function Contact() {
                 const Icon = item.icon
                 const content = (
                   <>
-                    <div className="w-11 h-11 flex-shrink-0 flex items-center justify-center rounded-xl bg-[var(--accent)]/10 border border-[var(--accent)]/10 group-hover:bg-[var(--accent)]/20 transition-all duration-300">
+                    <motion.div whileHover={{ scale: 1.1, rotate: 5 }} className="w-11 h-11 flex-shrink-0 flex items-center justify-center rounded-xl bg-[var(--accent)]/10 border border-[var(--accent)]/10 group-hover:bg-[var(--accent)]/20 transition-all duration-300">
                       <Icon className="w-5 h-5 theme-accent" />
-                    </div>
+                    </motion.div>
                     <div>
                       <p className="theme-text-heading font-semibold text-sm mb-1">{item.title}</p>
                       {item.lines.map((line, j) => (<p key={j} className="theme-text-body text-sm leading-relaxed">{line}</p>))}
                     </div>
                   </>
                 )
-                const cls = "flex items-start gap-4 group cursor-pointer"
+                const cls = "flex items-start gap-4 group cursor-pointer transition-all duration-300 hover:translate-x-2"
                 return item.href ? (
-                  <a key={i} href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined} className={cls}>{content}</a>
-                ) : (<div key={i} className={cls}>{content}</div>)
+                  <motion.a key={i} href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined} className={cls} whileHover={{ scale: 1.05 }}>{content}</motion.a>
+                ) : (<motion.div key={i} className={cls} whileHover={{ scale: 1.05 }}>{content}</motion.div>)
               })}
             </div>
 
-            <a href="#" className="inline-flex items-center gap-3 px-7 py-3.5 bg-gradient-to-r from-[var(--gold)] to-[#D4B85C] text-[#060B18] font-bold rounded-xl hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 text-sm">
+            <motion.a href="#" whileHover={{ scale: 1.05, y: -5 }} className="inline-flex items-center gap-3 px-7 py-3.5 bg-gradient-to-r from-[var(--gold)] to-[#D4B85C] text-[#060B18] font-bold rounded-xl hover:shadow-lg transition-all duration-300 text-sm btn-glow">
               <Download size={18} /> Download Company Profile
-            </a>
+            </motion.a>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, delay: 0.2 }} viewport={{ once: true }}>

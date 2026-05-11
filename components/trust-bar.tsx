@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
 
 const clients = ['PERTAMINA','KAI SERVICES','BANK MANDIRI','SUMMARECON','WIKA GEDUNG','BUMN','TRAC ASTRA','WINGS GROUP','GREEN ANDARA','UIN JAKARTA']
 
@@ -29,10 +30,10 @@ export default function TrustBar() {
           <div ref={scrollerRef} className="overflow-hidden flex-1 w-full">
             <div className="marquee-track">
               {clients.map((client, i) => (
-                <div key={i} className="flex-shrink-0 flex items-center gap-8 px-6">
-                  <span className="theme-text-muted font-semibold text-sm tracking-wider whitespace-nowrap hover:theme-text-body transition-colors duration-300 cursor-default">{client}</span>
+                <motion.div key={i} className="flex-shrink-0 flex items-center gap-8 px-6" whileHover={{ scale: 1.1 }} transition={{ type: 'spring', stiffness: 300 }}>
+                  <span className="theme-text-muted font-semibold text-sm tracking-wider whitespace-nowrap hover:theme-text-body transition-colors duration-300 cursor-default text-glow">{client}</span>
                   <span className="text-[var(--border-subtle)] text-xs">●</span>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>

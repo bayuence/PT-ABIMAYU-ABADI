@@ -42,10 +42,12 @@ export default function Footer() {
               {socials.map((social, i) => {
                 const Icon = social.icon
                 return (
-                  <a key={i} href={social.href} aria-label={social.label}
-                    className="w-9 h-9 rounded-lg theme-bg-card border theme-border flex items-center justify-center theme-text-muted hover:theme-accent hover:border-[var(--accent)] transition-all duration-300">
+                  <motion.a key={i} href={social.href} aria-label={social.label}
+                    className="w-9 h-9 rounded-lg theme-bg-card border theme-border flex items-center justify-center theme-text-muted hover:theme-accent hover:border-[var(--accent)] transition-all duration-300"
+                    whileHover={{ scale: 1.2, rotate: 10, y: -5 }}
+                    transition={{ type: 'spring', stiffness: 300 }}>
                     <Icon size={15} />
-                  </a>
+                  </motion.a>
                 )
               })}
             </div>
@@ -56,7 +58,9 @@ export default function Footer() {
               <h4 className="font-bold text-xs uppercase tracking-[0.15em] theme-text-body">{section.title}</h4>
               <ul className="space-y-3">
                 {section.links.map((link, j) => (
-                  <li key={j}><a href={link.href} className="theme-text-muted text-sm hover:theme-text-heading transition-colors duration-300">{link.label}</a></li>
+                  <motion.li key={j} whileHover={{ x: 5 }}>
+                    <a href={link.href} className="theme-text-muted text-sm hover:theme-text-heading transition-colors duration-300 inline-block">{link.label}</a>
+                  </motion.li>
                 ))}
               </ul>
             </motion.div>
