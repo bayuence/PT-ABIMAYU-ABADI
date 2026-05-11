@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { HardHat, Package, PencilRuler, Factory, Home, ClipboardList, ArrowUpRight } from 'lucide-react'
+import { HardHat, Package, PencilRuler, Factory, Home, ClipboardList } from 'lucide-react'
 
 const services = [
   { icon: HardHat, title: 'General Kontraktor', description: 'Layanan konstruksi menyeluruh dengan standar korporat internasional, dari pondasi hingga finishing.' },
@@ -43,13 +43,7 @@ export default function Services() {
                   </motion.div>
                 </div>
                 <h3 className="text-lg font-bold theme-text-heading mb-3 group-hover:theme-accent transition-colors duration-300 relative z-10">{service.title}</h3>
-                <p className="theme-text-body text-sm leading-relaxed mb-5 relative z-10">{service.description}</p>
-                <div className="flex items-center gap-1.5 theme-accent text-sm font-semibold group-hover:gap-2.5 transition-all duration-300 relative z-10">
-                  <span>Pelajari</span>
-                  <motion.div whileHover={{ x: 3, y: -3 }}>
-                    <ArrowUpRight size={14} className="transition-transform duration-300" />
-                  </motion.div>
-                </div>
+                <p className="theme-text-body text-sm leading-relaxed relative z-10">{service.description}</p>
               </motion.div>
             )
           })}
