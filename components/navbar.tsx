@@ -41,11 +41,11 @@ export default function Navbar() {
                 <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-bright)] to-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
               <div className="hidden sm:block">
-                {/* Judul PT - Memaksa Putih jika di paling atas, mengikuti theme jika sudah scroll */}
-                <p className={`text-[13px] font-bold leading-tight tracking-wide transition-colors duration-300 ${isScrolled ? 'theme-text-heading' : 'theme-text-heading'}`}>
+                {/* Judul PT */}
+                <p className={`text-[13px] font-bold leading-tight tracking-wide transition-colors duration-300 ${isScrolled ? 'text-gray-900' : 'text-white'}`}>
                   PT. ABIMANYU ABADI
                 </p>
-                <p className="text-[10px] font-medium theme-gold tracking-[0.15em]">
+                <p className={`text-[10px] font-medium tracking-[0.15em] transition-colors duration-300 ${isScrolled ? 'text-amber-600' : 'text-amber-300'}`}>
                   General Contractor & Supplier
                 </p>
               </div>
@@ -59,8 +59,8 @@ export default function Navbar() {
                   href={link.href}
                   className={`relative px-4 py-2 text-[13px] font-medium transition-colors duration-300 group ${
                     isScrolled
-                      ? 'theme-text-body hover:theme-text-heading'
-                      : 'theme-text-body hover:theme-text-heading'
+                      ? 'text-gray-800 hover:text-black'
+                      : 'text-white hover:text-amber-300'
                   }`}
                 >
                   {link.label}
