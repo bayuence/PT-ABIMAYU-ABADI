@@ -58,9 +58,9 @@ export default function Navbar() {
                   key={i}
                   href={link.href}
                   className={`relative px-4 py-2 text-[13px] font-medium transition-colors duration-300 group ${
-                    isScrolled 
-                      ? 'theme-text-body hover:theme-text-heading' 
-                      : 'theme-text-body hover:theme-text-heading'
+                    isScrolled
+                      ? 'text-gray-800 hover:text-black'
+                      : 'text-white hover:text-yellow-300'
                   }`}
                 >
                   {link.label}
