@@ -2,18 +2,19 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MapPin, Calendar, ArrowUpRight } from 'lucide-react'
+import { MapPin, Calendar } from 'lucide-react'
+import PortfolioGalleryModal from './portfolio-gallery-modal'
 
 const projects = [
-  { id: 1, name: 'Pertamina Patra Niaga', category: 'industri', client: 'Pertamina', location: 'Jakarta', year: 2023 },
-  { id: 2, name: 'Warehouse Industri Teluk', category: 'warehouse', client: 'Teluk Naga', location: 'Banten', year: 2023 },
-  { id: 3, name: 'KAI Service Depo Cipinang', category: 'komersial', client: 'KAI Services', location: 'Jakarta Timur', year: 2024 },
-  { id: 4, name: 'Warehouse Yosinoya', category: 'warehouse', client: 'Yosinoya', location: 'Bekasi', year: 2023 },
-  { id: 5, name: 'Apartment Capitol', category: 'residensial', client: 'Developer', location: 'Salemba, Jakarta', year: 2022 },
-  { id: 6, name: 'Sans.Co Coffee & Restaurant', category: 'komersial', client: 'Sans.Co', location: 'Bandung', year: 2024 },
-  { id: 7, name: 'Green Andara Residence', category: 'residensial', client: 'Green Andara', location: 'Jakarta Selatan', year: 2024 },
-  { id: 8, name: 'Nirfana House', category: 'residensial', client: 'Private', location: 'Bogor', year: 2024 },
-  { id: 9, name: 'Sumarecon House Interior', category: 'residensial', client: 'Summarecon', location: 'Bekasi', year: 2023 },
+  { id: 1, name: 'Pertamina Patra Niaga', category: 'industri', client: 'Pertamina', location: 'Jakarta', year: 2023, images: ['https://picsum.photos/1200/800?random=1', 'https://picsum.photos/1200/800?random=2', 'https://picsum.photos/1200/800?random=3', 'https://picsum.photos/1200/800?random=4'] },
+  { id: 2, name: 'Warehouse Industri Teluk', category: 'warehouse', client: 'Teluk Naga', location: 'Banten', year: 2023, images: ['https://picsum.photos/1200/800?random=5', 'https://picsum.photos/1200/800?random=6', 'https://picsum.photos/1200/800?random=7'] },
+  { id: 3, name: 'KAI Service Depo Cipinang', category: 'komersial', client: 'KAI Services', location: 'Jakarta Timur', year: 2024, images: ['https://picsum.photos/1200/800?random=8', 'https://picsum.photos/1200/800?random=9', 'https://picsum.photos/1200/800?random=10', 'https://picsum.photos/1200/800?random=11', 'https://picsum.photos/1200/800?random=12'] },
+  { id: 4, name: 'Warehouse Yosinoya', category: 'warehouse', client: 'Yosinoya', location: 'Bekasi', year: 2023, images: ['https://picsum.photos/1200/800?random=13', 'https://picsum.photos/1200/800?random=14', 'https://picsum.photos/1200/800?random=15'] },
+  { id: 5, name: 'Apartment Capitol', category: 'residensial', client: 'Developer', location: 'Salemba, Jakarta', year: 2022, images: ['https://picsum.photos/1200/800?random=16', 'https://picsum.photos/1200/800?random=17', 'https://picsum.photos/1200/800?random=18', 'https://picsum.photos/1200/800?random=19'] },
+  { id: 6, name: 'Sans.Co Coffee & Restaurant', category: 'komersial', client: 'Sans.Co', location: 'Bandung', year: 2024, images: ['https://picsum.photos/1200/800?random=20', 'https://picsum.photos/1200/800?random=21', 'https://picsum.photos/1200/800?random=22'] },
+  { id: 7, name: 'Green Andara Residence', category: 'residensial', client: 'Green Andara', location: 'Jakarta Selatan', year: 2024, images: ['https://picsum.photos/1200/800?random=23', 'https://picsum.photos/1200/800?random=24', 'https://picsum.photos/1200/800?random=25', 'https://picsum.photos/1200/800?random=26'] },
+  { id: 8, name: 'Nirfana House', category: 'residensial', client: 'Private', location: 'Bogor', year: 2024, images: ['https://picsum.photos/1200/800?random=27', 'https://picsum.photos/1200/800?random=28', 'https://picsum.photos/1200/800?random=29'] },
+  { id: 9, name: 'Sumarecon House Interior', category: 'residensial', client: 'Summarecon', location: 'Bekasi', year: 2023, images: ['https://picsum.photos/1200/800?random=30', 'https://picsum.photos/1200/800?random=31', 'https://picsum.photos/1200/800?random=32', 'https://picsum.photos/1200/800?random=33'] },
 ]
 
 const categories = ['semua', 'industri', 'warehouse', 'residensial', 'komersial']
@@ -26,6 +27,7 @@ const categoryBadge: Record<string, string> = {
 
 export default function Portfolio() {
   const [activeCategory, setActiveCategory] = useState('semua')
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null)
   const filtered = activeCategory === 'semua' ? projects : projects.filter((p) => p.category === activeCategory)
 
   return (
@@ -59,14 +61,19 @@ export default function Portfolio() {
               return (
                 <motion.div key={project.id} layout initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.3 }}
-                  className="theme-bg-card border theme-border rounded-2xl group cursor-pointer overflow-hidden hover:border-[var(--accent)] transition-all duration-300 card-hover">
+                  onClick={() => setSelectedProjectId(project.id)}
+                  className="theme-bg-card border theme-border rounded-2xl group cursor-pointer overflow-hidden hover:border-[var(--accent)] transition-all duration-300 card-hover"
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === 'Enter' && setSelectedProjectId(project.id)}
+                >
                   <div className="relative h-48 overflow-hidden theme-bg-primary">
                     <div className="blueprint-grid" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className={`absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${badge} transition-all duration-300 group-hover:scale-110`}>{project.category}</div>
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="w-12 h-12 rounded-xl bg-[var(--accent)]/5 border border-[var(--accent)]/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500 group-hover:bg-[var(--accent)]/20">
-                        <ArrowUpRight className="w-5 h-5 theme-text-muted group-hover:theme-accent transition-colors duration-300" />
+                        <span className="text-[var(--accent)] font-bold text-lg">+</span>
                       </div>
                     </div>
                   </div>
@@ -82,6 +89,19 @@ export default function Portfolio() {
             })}
           </AnimatePresence>
         </div>
+
+        {/* Gallery Modal */}
+        {selectedProjectId && (() => {
+          const project = projects.find(p => p.id === selectedProjectId)
+          return project ? (
+            <PortfolioGalleryModal
+              projectId={project.id}
+              projectName={project.name}
+              images={project.images}
+              onClose={() => setSelectedProjectId(null)}
+            />
+          ) : null
+        })()}
       </div>
     </section>
   )
