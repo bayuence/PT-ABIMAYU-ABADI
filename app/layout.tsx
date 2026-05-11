@@ -29,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="id" data-theme="dark" className={`scroll-smooth snap-y snap-proximity ${plusJakarta.variable}`} suppressHydrationWarning>
+    <html lang="id" data-theme="light" className={`scroll-smooth snap-y snap-proximity ${plusJakarta.variable}`} suppressHydrationWarning>
       <body className={`${plusJakarta.className} font-sans antialiased theme-bg-primary`}>
         <ThemeProvider>
           {children}

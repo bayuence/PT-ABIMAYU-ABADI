@@ -40,7 +40,7 @@
   --ring: oklch(0.708 0 0);
   --radius: 0.625rem;
 
-  /* Custom Theme Variables - Light Mode Default */
+  /* Light Mode Only - Default */
   --bg-primary: #ffffff;
   --bg-secondary: #F8FAFC;
   --bg-card: #ffffff;
@@ -61,34 +61,6 @@
   --nav-shadow: rgba(0, 0, 0, 0.06);
   --scrollbar-track: #F1F5F9;
   --scrollbar-thumb: #CBD5E1;
-}
-
-[data-theme="dark"], .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --accent: #4A90D9;
-  
-  /* Custom Theme Variables - Dark Mode Override */
-  --bg-primary: #060B18;
-  --bg-secondary: #0A1628;
-  --bg-card: rgba(27, 42, 94, 0.4);
-  --bg-card-solid: #0D1B3E;
-  --bg-card-hover: rgba(27, 42, 94, 0.6);
-  --bg-input: rgba(13, 27, 62, 0.6);
-  --text-heading: #ffffff;
-  --text-body: #8FA3C0;
-  --text-muted: #64748B;
-  --text-accent: #C9A84C;
-  --accent-bright: #60A5FA;
-  --accent-cta: #2563EB;
-  --gold: #C9A84C;
-  --border-subtle: rgba(74, 144, 217, 0.15);
-  --border-card: rgba(74, 144, 217, 0.15);
-  --divider: rgba(74, 144, 217, 0.15);
-  --nav-bg: rgba(6, 11, 24, 0.9);
-  --nav-shadow: rgba(74, 144, 217, 0.1);
-  --scrollbar-track: #060B18;
-  --scrollbar-thumb: #1B2A5E;
 }
 
 @theme inline {

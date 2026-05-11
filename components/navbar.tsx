@@ -1,14 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Menu, X, Sun, Moon } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useTheme } from './theme-provider'
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { theme, toggleTheme } = useTheme()
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50)
@@ -73,19 +71,6 @@ export default function Navbar() {
 
             {/* Desktop Right */}
             <div className="hidden lg:flex items-center gap-6">
-              {/* Theme Toggle - Minimalist Clean Icon */}
-              <button
-                onClick={toggleTheme}
-                className={`flex items-center justify-center transition-colors duration-300 ${
-                  isScrolled
-                    ? 'theme-text-muted hover:theme-text-heading'
-                    : theme === 'dark' ? 'text-white/80 hover:text-white' : 'text-slate-300 hover:text-white'
-                }`}
-                aria-label="Toggle theme"
-              >
-                {theme === 'dark' ? <Sun size={18} strokeWidth={2.5} /> : <Moon size={18} strokeWidth={2.5} />}
-              </button>
-
               {/* Solid Corporate Button - Sharp & Bold */}
               <a
                 href="#contact"
@@ -102,21 +87,10 @@ export default function Navbar() {
             {/* Mobile Right */}
             <div className="flex lg:hidden items-center gap-5">
               <button
-                onClick={toggleTheme}
-                className={`flex items-center justify-center transition-colors duration-300 ${
-                  isScrolled
-                    ? 'theme-text-muted hover:theme-text-heading'
-                    : 'theme-text-muted hover:theme-text-heading'
-                }`}
-                aria-label="Toggle theme"
-              >
-                {theme === 'dark' ? <Sun size={18} strokeWidth={2.5} /> : <Moon size={18} strokeWidth={2.5} />}
-              </button>
-              <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className={`transition-colors ${
-                  isScrolled 
-                    ? 'theme-text-heading' 
+                  isScrolled
+                    ? 'theme-text-heading'
                     : 'text-white'
                 }`}
                 aria-label="Toggle menu"
