@@ -109,11 +109,11 @@ export default function Hero() {
                 </span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[68px] font-bold leading-[1.1] tracking-tight theme-text-heading mb-6">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[68px] font-bold leading-[1.1] tracking-tight text-white mb-6">
                 {slides[current].title}
               </h1>
 
-              <p className="text-base sm:text-lg md:text-xl theme-text-body leading-relaxed mb-10 max-w-2xl font-light">
+              <p className="text-base sm:text-lg md:text-xl text-gray-200 leading-relaxed mb-10 max-w-2xl font-light">
                 {slides[current].subtitle}
               </p>
 
