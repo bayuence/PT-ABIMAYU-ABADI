@@ -16,10 +16,22 @@ export const metadata: Metadata = {
   description: 'Kontraktor umum dan supplier terpercaya dengan klien korporat tier-1 Indonesia. Infrastruktur migas, perkeretaapian, warehouse industri, properti premium.',
   generator: 'Next.js',
   metadataBase: new URL('https://abimanyu.id'),
+  icons: {
+    icon: '/logo.png',
+    apple: '/logo.png',
+  },
   openGraph: {
     title: 'PT. Abimanyu Abadi — General Contractor & Supplier',
     description: 'Kontraktor umum dan supplier dengan rekam jejak korporat tier-1 Indonesia',
     type: 'website',
+    images: [
+      {
+        url: '/logo.png',
+        width: 512,
+        height: 512,
+        alt: 'PT. Abimanyu Abadi Logo',
+      },
+    ],
   },
 }
 

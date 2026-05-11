@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Image from 'next/image'
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -36,10 +37,13 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <a href="#hero" className="flex items-center gap-3 group">
-              <div className="relative w-10 h-10 bg-gradient-to-br from-[var(--accent)] to-[#2B5BA8] flex items-center justify-center text-white font-bold text-sm rounded-lg overflow-hidden">
-                <span className="relative z-10">AA</span>
-                <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-bright)] to-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
+              <Image
+                src="/logo.png"
+                alt="PT. Abimanyu Abadi Logo"
+                width={40}
+                height={40}
+                className="rounded-lg"
+              />
               <div className="hidden sm:block">
                 {/* Judul PT */}
                 <p className={`text-[13px] font-bold leading-tight tracking-wide transition-colors duration-300 ${isScrolled ? 'text-gray-900' : 'text-white'}`}>
