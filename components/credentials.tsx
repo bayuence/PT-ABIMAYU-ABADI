@@ -2,40 +2,7 @@
 
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
-
-const stats = [
-  { value: 50, label: 'Proyek Selesai', suffix: '+' },
-  { value: 15, label: 'Klien Korporat', suffix: '+' },
-  { value: 10, label: 'Tahun Pengalaman', suffix: '+' },
-  { value: 100, label: 'On-time Delivery', suffix: '%' },
-]
-
-const credentials = [
-  {
-    number: '01',
-    title: 'BERPENGALAMAN',
-    description: 'Multi-sektor industri dari migas hingga properti premium',
-    accent: 'from-[#4A90D9] to-[#60A5FA]',
-  },
-  {
-    number: '02',
-    title: 'BERKUALITAS',
-    description: 'Material dan metode kerja berstandar korporat nasional',
-    accent: 'from-[#C9A84C] to-[#E8D48B]',
-  },
-  {
-    number: '03',
-    title: 'TEPAT WAKTU',
-    description: 'Track record penyelesaian proyek sesuai milestone',
-    accent: 'from-[#60A5FA] to-[#4A90D9]',
-  },
-  {
-    number: '04',
-    title: 'TERPERCAYA',
-    description: 'Klien tier-1 yang berulang kali mempercayakan proyek baru',
-    accent: 'from-[#4A90D9] to-[#2B5BA8]',
-  },
-]
+import { fetchCredentials, Credential } from '@/lib/fetchCredentials'
 
 function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
   const [displayValue, setDisplayValue] = useState(0)
@@ -75,6 +42,55 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
 }
 
 export default function Credentials() {
+  const [credentials, setCredentials] = useState<Credential[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const loadCredentials = async () => {
+      try {
+        const data = await fetchCredentials()
+        setCredentials(data)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    loadCredentials()
+  }, [])
+
+  // Split credentials: first few for stats, rest for credential cards
+  const stats = credentials.slice(0, 4)
+  const credCards = credentials.slice(4)
+
+  const credentialCardsList = credCards.length > 0 ? credCards : [
+    {
+      _id: '1',
+      label: 'BERPENGALAMAN',
+      value: '01',
+      description: 'Multi-sektor industri dari migas hingga properti premium',
+      order: 1,
+    },
+    {
+      _id: '2',
+      label: 'BERKUALITAS',
+      value: '02',
+      description: 'Material dan metode kerja berstandar korporat nasional',
+      order: 2,
+    },
+    {
+      _id: '3',
+      label: 'TEPAT WAKTU',
+      value: '03',
+      description: 'Track record penyelesaian proyek sesuai milestone',
+      order: 3,
+    },
+    {
+      _id: '4',
+      label: 'TERPERCAYA',
+      value: '04',
+      description: 'Klien tier-1 yang berulang kali mempercayakan proyek baru',
+      order: 4,
+    },
+  ]
   return (
     <section
       id="credentials"
@@ -108,21 +124,25 @@ export default function Credentials() {
 
               {/* Stats Grid */}
               <div className="grid grid-cols-2 gap-8">
-                {stats.map((stat, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                    viewport={{ once: true, margin: '-50px' }}
-                    className="space-y-2"
-                  >
-                    <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-                    <p className="theme-text-muted text-sm font-medium">
-                      {stat.label}
-                    </p>
-                  </motion.div>
-                ))}
+                {stats.map((stat, i) => {
+                  const numValue = parseInt(stat.value) || 0
+                  const suffix = stat.value.includes('%') ? '%' : '+'
+                  return (
+                    <motion.div
+                      key={stat._id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: i * 0.1 }}
+                      viewport={{ once: true, margin: '-50px' }}
+                      className="space-y-2"
+                    >
+                      <AnimatedCounter value={numValue} suffix={suffix} />
+                      <p className="theme-text-muted text-sm font-medium">
+                        {stat.label}
+                      </p>
+                    </motion.div>
+                  )
+                })}
               </div>
             </div>
           </motion.div>
@@ -135,47 +155,56 @@ export default function Credentials() {
             viewport={{ once: true }}
             className="space-y-4"
           >
-            {credentials.map((cred, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 + i * 0.1 }}
-                viewport={{ once: true, margin: '-50px' }}
-                className="glass-card p-6 group cursor-default overflow-hidden relative card-hover"
-                whileHover={{ scale: 1.02 }}
-              >
-                {/* Left gradient accent with animation */}
+            {credentialCardsList.map((cred, i) => {
+              const accents = [
+                'from-[#4A90D9] to-[#60A5FA]',
+                'from-[#C9A84C] to-[#E8D48B]',
+                'from-[#60A5FA] to-[#4A90D9]',
+                'from-[#4A90D9] to-[#2B5BA8]',
+              ]
+              const accent = accents[i % 4]
+              return (
                 <motion.div
-                  className={`absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b ${cred.accent} opacity-60 group-hover:opacity-100 transition-opacity duration-300`}
-                  whileHover={{ scaleY: 1.1 }}
-                />
+                  key={cred._id}
+                  initial={{ opacity: 0, x: 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 + i * 0.1 }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  className="glass-card p-6 group cursor-default overflow-hidden relative card-hover"
+                  whileHover={{ scale: 1.02 }}
+                >
+                  {/* Left gradient accent with animation */}
+                  <motion.div
+                    className={`absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b ${accent} opacity-60 group-hover:opacity-100 transition-opacity duration-300`}
+                    whileHover={{ scaleY: 1.1 }}
+                  />
 
-                {/* Animated background on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/0 to-transparent opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+                  {/* Animated background on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/0 to-transparent opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
 
-                <div className="flex items-start gap-5 pl-4 relative z-10">
-                  {/* Number Badge with rotation */}
-                  <motion.div className="flex-shrink-0" whileHover={{ rotate: 5, scale: 1.1 }} transition={{ type: 'spring', stiffness: 300 }}>
-                    <div
-                      className={`w-12 h-12 rounded-xl bg-gradient-to-br ${cred.accent} flex items-center justify-center font-bold text-white text-lg shadow-lg`}
-                    >
-                      {cred.number}
+                  <div className="flex items-start gap-5 pl-4 relative z-10">
+                    {/* Number Badge with rotation */}
+                    <motion.div className="flex-shrink-0" whileHover={{ rotate: 5, scale: 1.1 }} transition={{ type: 'spring', stiffness: 300 }}>
+                      <div
+                        className={`w-12 h-12 rounded-xl bg-gradient-to-br ${accent} flex items-center justify-center font-bold text-white text-lg shadow-lg`}
+                      >
+                        {cred.value}
+                      </div>
+                    </motion.div>
+
+                    {/* Content */}
+                    <div>
+                      <h3 className="text-base font-bold theme-text-heading mb-1.5 tracking-wide group-hover:theme-accent transition-colors duration-300">
+                        {cred.label}
+                      </h3>
+                      <p className="theme-text-body text-sm leading-relaxed">
+                        {cred.description}
+                      </p>
                     </div>
-                  </motion.div>
-
-                  {/* Content */}
-                  <div>
-                    <h3 className="text-base font-bold theme-text-heading mb-1.5 tracking-wide group-hover:theme-accent transition-colors duration-300">
-                      {cred.title}
-                    </h3>
-                    <p className="theme-text-body text-sm leading-relaxed">
-                      {cred.description}
-                    </p>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              )
+            })}
           </motion.div>
         </div>
       </div>

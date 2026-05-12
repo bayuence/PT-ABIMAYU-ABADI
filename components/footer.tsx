@@ -72,7 +72,7 @@ export default function Footer() {
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.4 }} viewport={{ once: true }} className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="theme-text-muted text-xs text-center md:text-left">© 2025 PT. Abimanyu Abadi. All rights reserved.</p>
           <p className="theme-text-muted text-xs">
-            General Contractor & Supplier · Jakarta, Indonesia · <a href="https://abimanyu.id" className="theme-accent hover:underline">abimanyu.id</a>
+            General Contractor & Supplier · Jakarta, Indonesia
           </p>
         </motion.div>
       </div>

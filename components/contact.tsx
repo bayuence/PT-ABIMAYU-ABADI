@@ -1,11 +1,26 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Phone, Mail, MapPin, Globe, Send, Download } from 'lucide-react'
+import { Phone, Mail, MapPin, Send, Download } from 'lucide-react'
+import { fetchContactInfo, ContactInfo } from '@/lib/fetchContactInfo'
 
 export default function Contact() {
   const [formData, setFormData] = useState({ nama: '', perusahaan: '', email: '', telepon: '', kebutuhan: '', estimasi: '', deskripsi: '' })
+  const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const loadContactInfo = async () => {
+      try {
+        const data = await fetchContactInfo()
+        setContactInfo(data)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    loadContactInfo()
+  }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -14,15 +29,15 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    const whatsappNumber = contactInfo?.whatsappNumber || '6287825167150'
     const message = `*Permintaan Penawaran Baru*%0A%0A*Nama:* ${formData.nama}%0A*Perusahaan:* ${formData.perusahaan}%0A*Email:* ${formData.email}%0A*Telepon:* ${formData.telepon}%0A*Kebutuhan:* ${formData.kebutuhan}%0A*Estimasi:* ${formData.estimasi}%0A*Deskripsi:*%0A${formData.deskripsi}`
-    window.open(`https://wa.me/6287825167150?text=${message}`, '_blank')
+    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank')
   }
 
-  const contactInfo = [
-    { icon: Phone, title: 'Telepon', lines: ['021-22708806', '0878-2516-7150', '0856-7135-400'], href: 'tel:+62212270880' },
-    { icon: Mail, title: 'Email', lines: ['ops.abimanyu@gmail.com'], href: 'mailto:ops.abimanyu@gmail.com' },
-    { icon: MapPin, title: 'Alamat', lines: ['Gd. AD Premier Lt.17 Suite 04B', 'Jl. TB Simatupang', 'Jakarta Selatan 12550'], href: undefined },
-    { icon: Globe, title: 'Website', lines: ['abimanyu.id'], href: 'https://abimanyu.id' },
+  const defaultContactInfo = [
+    { icon: Phone, title: 'Telepon', lines: contactInfo?.phones || ['021-22708806', '0878-2516-7150', '0856-7135-400'], href: contactInfo?.phones?.[0] ? `tel:+62${contactInfo.phones[0].replace(/\D/g, '')}` : 'tel:+62212270880' },
+    { icon: Mail, title: 'Email', lines: contactInfo?.emails || ['ops.abimanyu@gmail.com'], href: contactInfo?.emails?.[0] ? `mailto:${contactInfo.emails[0]}` : 'mailto:ops.abimanyu@gmail.com' },
+    { icon: MapPin, title: 'Alamat', lines: contactInfo?.address?.split('\n') || ['Gd. AD Premier Lt.17 Suite 04B', 'Jl. TB Simatupang', 'Jakarta Selatan 12550'], href: undefined },
   ]
 
   return (
@@ -40,7 +55,7 @@ export default function Contact() {
             </div>
 
             <div className="space-y-4">
-              {contactInfo.map((item, i) => {
+              {defaultContactInfo.map((item, i) => {
                 const Icon = item.icon
                 const content = (
                   <>

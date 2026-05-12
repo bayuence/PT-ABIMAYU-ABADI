@@ -1,10 +1,24 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-
-const clients = ['PERTAMINA','KAI SERVICES','BANK MANDIRI','SUMMARECON','WIKA GEDUNG','BUMN','TRAC ASTRA','WINGS GROUP','GREEN ANDARA','UIN JAKARTA','TELUK NAGA','YOSINOYA','SANS.CO','CIPINANG DEPOT','PRIVATE DEVELOPER']
+import { fetchClients, Client } from '@/lib/fetchClients'
 
 export default function ClientsGrid() {
+  const [clients, setClients] = useState<Client[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const loadClients = async () => {
+      try {
+        const data = await fetchClients()
+        setClients(data)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    loadClients()
+  }, [])
   return (
     <section id="clients" className="section-base relative w-full theme-bg-primary py-24 md:py-36 px-4">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--divider)] to-transparent" />
@@ -17,10 +31,14 @@ export default function ClientsGrid() {
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
           {clients.map((client, i) => (
-            <motion.div key={i} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
+            <motion.div key={client._id} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: i * 0.03 }} viewport={{ once: true, margin: '-30px' }}
-              className="theme-bg-card border theme-border rounded-2xl p-5 flex items-center justify-center min-h-[80px] cursor-default group hover:border-[var(--accent)] hover:shadow-sm transition-all duration-300">
-              <p className="theme-text-body font-bold text-center text-xs tracking-wider group-hover:theme-accent transition-colors duration-300">{client}</p>
+              className="theme-bg-card border theme-border rounded-2xl p-5 flex items-center justify-center min-h-[120px] cursor-default group hover:border-[var(--accent)] hover:shadow-lg transition-all duration-300">
+              {client.logo?.asset?.url ? (
+                <img src={client.logo.asset.url} alt={client.name} className="max-w-full max-h-[80px] object-contain group-hover:scale-110 transition-transform duration-300" />
+              ) : (
+                <p className="theme-text-body font-bold text-center text-xs tracking-wider group-hover:theme-accent transition-colors duration-300">{client.name}</p>
+              )}
             </motion.div>
           ))}
         </div>

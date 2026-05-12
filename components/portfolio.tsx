@@ -1,23 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MapPin, Calendar } from 'lucide-react'
+import { fetchPortfolio, Portfolio } from '@/lib/fetchPortfolio'
 import PortfolioGalleryModal from './portfolio-gallery-modal'
 
-const projects = [
-  { id: 1, name: 'Pertamina Patra Niaga', category: 'industri', client: 'Pertamina', location: 'Jakarta', year: 2023, images: ['https://picsum.photos/1200/800?random=1', 'https://picsum.photos/1200/800?random=2', 'https://picsum.photos/1200/800?random=3', 'https://picsum.photos/1200/800?random=4'] },
-  { id: 2, name: 'Warehouse Industri Teluk', category: 'warehouse', client: 'Teluk Naga', location: 'Banten', year: 2023, images: ['https://picsum.photos/1200/800?random=5', 'https://picsum.photos/1200/800?random=6', 'https://picsum.photos/1200/800?random=7'] },
-  { id: 3, name: 'KAI Service Depo Cipinang', category: 'komersial', client: 'KAI Services', location: 'Jakarta Timur', year: 2024, images: ['https://picsum.photos/1200/800?random=8', 'https://picsum.photos/1200/800?random=9', 'https://picsum.photos/1200/800?random=10', 'https://picsum.photos/1200/800?random=11', 'https://picsum.photos/1200/800?random=12'] },
-  { id: 4, name: 'Warehouse Yosinoya', category: 'warehouse', client: 'Yosinoya', location: 'Bekasi', year: 2023, images: ['https://picsum.photos/1200/800?random=13', 'https://picsum.photos/1200/800?random=14', 'https://picsum.photos/1200/800?random=15'] },
-  { id: 5, name: 'Apartment Capitol', category: 'residensial', client: 'Developer', location: 'Salemba, Jakarta', year: 2022, images: ['https://picsum.photos/1200/800?random=16', 'https://picsum.photos/1200/800?random=17', 'https://picsum.photos/1200/800?random=18', 'https://picsum.photos/1200/800?random=19'] },
-  { id: 6, name: 'Sans.Co Coffee & Restaurant', category: 'komersial', client: 'Sans.Co', location: 'Bandung', year: 2024, images: ['https://picsum.photos/1200/800?random=20', 'https://picsum.photos/1200/800?random=21', 'https://picsum.photos/1200/800?random=22'] },
-  { id: 7, name: 'Green Andara Residence', category: 'residensial', client: 'Green Andara', location: 'Jakarta Selatan', year: 2024, images: ['https://picsum.photos/1200/800?random=23', 'https://picsum.photos/1200/800?random=24', 'https://picsum.photos/1200/800?random=25', 'https://picsum.photos/1200/800?random=26'] },
-  { id: 8, name: 'Nirfana House', category: 'residensial', client: 'Private', location: 'Bogor', year: 2024, images: ['https://picsum.photos/1200/800?random=27', 'https://picsum.photos/1200/800?random=28', 'https://picsum.photos/1200/800?random=29'] },
-  { id: 9, name: 'Sumarecon House Interior', category: 'residensial', client: 'Summarecon', location: 'Bekasi', year: 2023, images: ['https://picsum.photos/1200/800?random=30', 'https://picsum.photos/1200/800?random=31', 'https://picsum.photos/1200/800?random=32', 'https://picsum.photos/1200/800?random=33'] },
-]
-
-const categories = ['semua', 'industri', 'warehouse', 'residensial', 'komersial']
 const categoryBadge: Record<string, string> = {
   industri: 'bg-amber-500/10 text-amber-500 border-amber-500/20',
   warehouse: 'bg-blue-500/10 text-blue-500 border-blue-500/20',
@@ -26,8 +14,24 @@ const categoryBadge: Record<string, string> = {
 }
 
 export default function Portfolio() {
+  const [projects, setProjects] = useState<Portfolio[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [activeCategory, setActiveCategory] = useState('semua')
-  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null)
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null)
+
+  useEffect(() => {
+    const loadProjects = async () => {
+      try {
+        const data = await fetchPortfolio()
+        setProjects(data)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    loadProjects()
+  }, [])
+
+  const categories = ['semua', ...Array.from(new Set(projects.map(p => p.category)))]
   const filtered = activeCategory === 'semua' ? projects : projects.filter((p) => p.category === activeCategory)
 
   return (
@@ -58,14 +62,16 @@ export default function Portfolio() {
           <AnimatePresence mode="sync">
             {filtered.map((project) => {
               const badge = categoryBadge[project.category] || categoryBadge.industri
+              const imageUrls = project.images.map(img => img.asset?.url).filter(Boolean)
+
               return (
-                <motion.div key={project.id} layout initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
+                <motion.div key={project._id} layout initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.3 }}
-                  onClick={() => setSelectedProjectId(project.id)}
+                  onClick={() => setSelectedProjectId(project._id)}
                   className="theme-bg-card border theme-border rounded-2xl group cursor-pointer overflow-hidden hover:border-[var(--accent)] transition-all duration-300 card-hover"
                   role="button"
                   tabIndex={0}
-                  onKeyDown={(e) => e.key === 'Enter' && setSelectedProjectId(project.id)}
+                  onKeyDown={(e) => e.key === 'Enter' && setSelectedProjectId(project._id)}
                 >
                   <div className="relative h-48 overflow-hidden theme-bg-primary">
                     <div className="blueprint-grid" />
@@ -92,12 +98,13 @@ export default function Portfolio() {
 
         {/* Gallery Modal */}
         {selectedProjectId && (() => {
-          const project = projects.find(p => p.id === selectedProjectId)
+          const project = projects.find(p => p._id === selectedProjectId)
+          const imageUrls = project?.images.map(img => img.asset?.url).filter(Boolean) || []
           return project ? (
             <PortfolioGalleryModal
-              projectId={project.id}
+              projectId={project._id}
               projectName={project.name}
-              images={project.images}
+              images={imageUrls}
               onClose={() => setSelectedProjectId(null)}
             />
           ) : null

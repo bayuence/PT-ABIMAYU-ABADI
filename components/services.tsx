@@ -1,18 +1,25 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { HardHat, Package, PencilRuler, Factory, Home, ClipboardList } from 'lucide-react'
-
-const services = [
-  { icon: HardHat, title: 'General Kontraktor', description: 'Layanan konstruksi menyeluruh dengan standar korporat internasional, dari pondasi hingga finishing.' },
-  { icon: Package, title: 'Supplier Material', description: 'Penyediaan material berkualitas tinggi untuk berbagai kebutuhan proyek berskala besar.' },
-  { icon: PencilRuler, title: 'Konsultan Design', description: 'Desain inovatif yang selaras dengan visi dan budget proyek Anda.' },
-  { icon: Factory, title: 'Konstruksi Industri', description: 'Spesialisasi pembangunan fasilitas industri, gudang, dan manufaktur.' },
-  { icon: Home, title: 'Interior & Fit-out', description: 'Penyelesaian interior dengan presisi dan estetika premium.' },
-  { icon: ClipboardList, title: 'Project Management', description: 'Manajemen proyek profesional dari perencanaan hingga serah terima.' },
-]
+import { fetchServices, Service } from '@/lib/fetchServices'
+import { getLucideIcon } from '@/lib/getLucideIcon'
 
 export default function Services() {
+  const [services, setServices] = useState<Service[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const loadServices = async () => {
+      try {
+        const data = await fetchServices()
+        setServices(data)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    loadServices()
+  }, [])
   return (
     <section id="services" className="section-base relative w-full theme-bg-primary py-24 md:py-36 px-4">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--divider)] to-transparent" />
@@ -31,9 +38,9 @@ export default function Services() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {services.map((service, i) => {
-            const Icon = service.icon
+            const Icon = getLucideIcon(service.icon)
             return (
-              <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+              <motion.div key={service._id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.08 }} viewport={{ once: true, margin: '-50px' }}
                 className="theme-bg-card border theme-border rounded-2xl p-7 group cursor-pointer hover:border-[var(--accent)] transition-all duration-300 card-hover relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/0 to-[var(--accent)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
