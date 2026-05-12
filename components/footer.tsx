@@ -1,48 +1,104 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react'
-
-const footerSections = [
-  { title: 'Perusahaan', links: [
-    { label: 'Tentang Kami', href: '#about' },{ label: 'Portofolio', href: '#portfolio' },{ label: 'Klien', href: '#clients' },{ label: 'Karir', href: '#' },
-  ]},
-  { title: 'Layanan', links: [
-    { label: 'General Kontraktor', href: '#services' },{ label: 'Supplier Material', href: '#services' },{ label: 'Konsultan Design', href: '#services' },{ label: 'Project Management', href: '#services' },
-  ]},
-  { title: 'Kontak', links: [
-    { label: '021-22708806', href: 'tel:+62212270880' },{ label: 'ops.abimanyu@gmail.com', href: 'mailto:ops.abimanyu@gmail.com' },{ label: 'Jakarta, Indonesia', href: '#contact' },
-  ]},
-]
-
-const socials = [
-  { icon: Facebook, href: '#', label: 'Facebook' },
-  { icon: Instagram, href: '#', label: 'Instagram' },
-  { icon: Linkedin, href: '#', label: 'LinkedIn' },
-  { icon: Twitter, href: '#', label: 'Twitter' },
-]
+import Image from 'next/image'
+import { fetchServices, Service } from '@/lib/fetchServices'
+import { fetchContactInfo, ContactInfo } from '@/lib/fetchContactInfo'
+import { fetchFooter, FooterData } from '@/lib/fetchFooter'
 
 export default function Footer() {
+  const [services, setServices] = useState<Service[]>([])
+  const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null)
+  const [footerData, setFooterData] = useState<FooterData | null>(null)
+
+  useEffect(() => {
+    const loadData = async () => {
+      const [servicesData, contactData, footerSettings] = await Promise.all([
+        fetchServices(),
+        fetchContactInfo(),
+        fetchFooter()
+      ])
+      setServices(servicesData)
+      setContactInfo(contactData)
+      setFooterData(footerSettings)
+    }
+    loadData()
+  }, [])
+
+  const footerSections = [
+    { 
+      title: 'Perusahaan', 
+      links: [
+        { label: 'Tentang Kami', href: '#about' },
+        { label: 'Portofolio', href: '#portfolio' },
+        { label: 'Klien', href: '#clients' },
+        { label: 'Karir', href: '#' },
+      ]
+    },
+    { 
+      title: 'Layanan', 
+      links: services.map(s => ({
+        label: s.title,
+        href: '#services'
+      })).slice(0, 4) // Limit to 4 for footer
+    },
+    { 
+      title: 'Kontak', 
+      links: [
+        { 
+          label: contactInfo?.phones?.[0] || '021-22708806', 
+          href: `tel:${(contactInfo?.phones?.[0] || '021-22708806').replace(/\D/g, '')}` 
+        },
+        { 
+          label: contactInfo?.emails?.[0] || 'ops.abimanyu@gmail.com', 
+          href: `mailto:${contactInfo?.emails?.[0] || 'ops.abimanyu@gmail.com'}` 
+        },
+        { 
+          label: contactInfo?.address?.split('\n')[0] || 'Jakarta, Indonesia', 
+          href: '#contact' 
+        },
+      ]
+    },
+  ]
+
+  const dynamicSocials = [
+    { icon: Facebook, href: footerData?.socials?.facebook || '#', label: 'Facebook' },
+    { icon: Instagram, href: footerData?.socials?.instagram || '#', label: 'Instagram' },
+    { icon: Linkedin, href: footerData?.socials?.linkedin || '#', label: 'LinkedIn' },
+    { icon: Twitter, href: footerData?.socials?.twitter || '#', label: 'Twitter' },
+  ].filter(s => s.href !== '#')
+  // Actually, better to show all as before but with real links if available.
+
   return (
-    <footer className="relative w-full theme-bg-primary border-t border-[var(--divider)] px-4">
+    <footer className="relative w-full theme-bg-primary border-t border-[var(--divider)] px-4 snap-start">
       <div className="max-w-7xl mx-auto py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-16">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="space-y-5">
             <a href="#hero" className="flex items-center gap-3 group">
-              <div className="w-9 h-9 bg-gradient-to-br from-[var(--accent)] to-[#2B5BA8] flex items-center justify-center text-white font-bold rounded-lg text-xs">AA</div>
+              <Image 
+                src="/logo.png" 
+                alt="PT. Abimanyu Abadi Logo" 
+                width={36} 
+                height={36} 
+                className="rounded-lg"
+              />
               <div>
-                <p className="font-bold text-sm tracking-wide theme-text-heading">PT. ABIMANYU</p>
-                <p className="theme-gold text-[10px] tracking-[0.12em]">General Contractor</p>
+                <p className="font-bold text-sm tracking-wide theme-text-heading">{footerData?.brandName || 'PT. ABIMANYU ABADI'}</p>
+                <p className="theme-gold text-[10px] tracking-[0.12em]">{footerData?.tagline || 'General Contractor'}</p>
               </div>
             </a>
             <p className="theme-text-muted text-sm leading-relaxed">
-              Membangun dengan Integritas — kontraktor umum dan supplier terpercaya untuk kebutuhan konstruksi korporat Indonesia.
+              {footerData?.description || 'Membangun dengan Integritas — kontraktor umum dan supplier terpercaya untuk kebutuhan konstruksi korporat Indonesia.'}
             </p>
             <div className="flex items-center gap-2">
-              {socials.map((social, i) => {
+              {dynamicSocials.map((social, i) => {
                 const Icon = social.icon
                 return (
                   <motion.a key={i} href={social.href} aria-label={social.label}
+                    target={social.href !== '#' ? '_blank' : undefined}
+                    rel={social.href !== '#' ? 'noopener noreferrer' : undefined}
                     className="w-9 h-9 rounded-lg theme-bg-card border theme-border flex items-center justify-center theme-text-muted hover:theme-accent hover:border-[var(--accent)] transition-all duration-300"
                     whileHover={{ scale: 1.2, rotate: 10, y: -5 }}
                     transition={{ type: 'spring', stiffness: 300 }}>
@@ -70,9 +126,9 @@ export default function Footer() {
         <div className="h-px bg-[var(--divider)] mb-8" />
 
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.4 }} viewport={{ once: true }} className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="theme-text-muted text-xs text-center md:text-left">© 2025 PT. Abimanyu Abadi. All rights reserved.</p>
+          <p className="theme-text-muted text-xs text-center md:text-left">{footerData?.copyright || '© 2025 PT. Abimanyu Abadi. All rights reserved.'}</p>
           <p className="theme-text-muted text-xs">
-            General Contractor & Supplier · Jakarta, Indonesia
+            {footerData?.footerInfo || 'General Contractor & Supplier · Jakarta, Indonesia'}
           </p>
         </motion.div>
       </div>

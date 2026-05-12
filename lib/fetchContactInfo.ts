@@ -8,6 +8,13 @@ export interface ContactInfo {
   emails?: string[]
   address?: string
   whatsappNumber?: string
+  companyProfileUrl?: string
+  socials?: {
+    facebook?: string
+    instagram?: string
+    linkedin?: string
+    twitter?: string
+  }
 }
 
 export async function fetchContactInfo(): Promise<ContactInfo | null> {

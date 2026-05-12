@@ -48,5 +48,16 @@ export default defineType({
         accept: '.pdf',
       },
     }),
+    defineField({
+      name: 'socials',
+      title: 'Media Sosial',
+      type: 'object',
+      fields: [
+        { name: 'facebook', title: 'Facebook URL', type: 'url' },
+        { name: 'instagram', title: 'Instagram URL', type: 'url' },
+        { name: 'linkedin', title: 'LinkedIn URL', type: 'url' },
+        { name: 'twitter', title: 'Twitter URL', type: 'url' },
+      ],
+    }),
   ],
 })

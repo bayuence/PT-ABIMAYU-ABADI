@@ -100,6 +100,21 @@ export const contactInfoQuery = `
     phones,
     emails,
     address,
-    whatsappNumber
+    whatsappNumber,
+    "companyProfileUrl": companyProfile.asset->url,
+    socials
+  }
+`
+
+// Footer (single document)
+export const footerQuery = `
+  *[_type == "footer" && !(_id in path("drafts.**"))][0] {
+    _id,
+    brandName,
+    tagline,
+    description,
+    copyright,
+    footerInfo,
+    socials
   }
 `

@@ -5,5 +5,6 @@ import client from './client'
 import credential from './credential'
 import contactInfo from './contactInfo'
 import about from './about'
+import footer from './footer'
 
-export const schemaTypes = [heroSlide, service, portfolio, client, credential, contactInfo, about]
+export const schemaTypes = [heroSlide, service, portfolio, client, credential, contactInfo, about, footer]
