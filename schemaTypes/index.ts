@@ -4,6 +4,7 @@ import portfolio from './portfolio'
 import client from './client'
 import credential from './credential'
 import contactInfo from './contactInfo'
+import about from './about'
 
 export const schemaTypes = [
   heroSlide,
@@ -12,5 +13,5 @@ export const schemaTypes = [
   client,
   credential,
   contactInfo,
+  about,
 ]
-
