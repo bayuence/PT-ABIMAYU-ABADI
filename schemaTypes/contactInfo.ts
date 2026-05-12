@@ -40,5 +40,13 @@ export default defineType({
       type: 'string',
       description: 'Contoh: 6287825167150',
     }),
+    defineField({
+      name: 'companyProfile',
+      title: 'Download Company Profile (PDF)',
+      type: 'file',
+      options: {
+        accept: '.pdf',
+      },
+    }),
   ],
 })
