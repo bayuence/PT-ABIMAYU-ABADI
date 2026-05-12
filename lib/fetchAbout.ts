@@ -1,4 +1,4 @@
-import { client } from './sanity.client'
+import { sanityClient } from './sanity.client'
 
 export interface AboutData {
   tagline: string
@@ -31,7 +31,7 @@ export async function fetchAbout(): Promise<AboutData | null> {
   }`
   
   try {
-    const data = await client.fetch(query)
+    const data = await sanityClient.fetch(query)
     return data
   } catch (error) {
     console.error("Error fetching about data:", error)
