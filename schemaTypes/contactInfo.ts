@@ -36,7 +36,7 @@ export default defineType({
     }),
     defineField({
       name: 'whatsappNumber',
-      title: 'Nomor WhatsApp (tanpa +62)',
+      title: 'Nomor WhatsApp (Mulai dengan 62, Tanpa tanda +)',
       type: 'string',
       description: 'Contoh: 6287825167150',
     }),
