@@ -35,7 +35,7 @@ export default function TrustBar() {
   const animDuration = Math.max(40, count * 6)
 
   return (
-    <section className="section-base relative w-full py-10 border-y theme-border-subtle overflow-hidden"
+    <section className="section-base relative w-full py-20 border-y theme-border-subtle overflow-hidden snap-center snap-always"
       style={{ background: 'var(--bg-secondary, #0f172a)' }}
     >
       <style>{`
