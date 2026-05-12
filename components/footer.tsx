@@ -2,11 +2,15 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react'
+import { Facebook, Instagram, Linkedin, Twitter, Youtube, MessageCircle, Mail, Phone, ExternalLink } from 'lucide-react'
 import Image from 'next/image'
 import { fetchServices, Service } from '@/lib/fetchServices'
 import { fetchContactInfo, ContactInfo } from '@/lib/fetchContactInfo'
 import { fetchFooter, FooterData } from '@/lib/fetchFooter'
+
+const SOCIAL_ICONS: Record<string, any> = {
+  Facebook, Instagram, LinkedIn: Linkedin, Twitter, YouTube: Youtube, TikTok: ExternalLink, WhatsApp: MessageCircle, Email: Mail
+}
 
 export default function Footer() {
   const [services, setServices] = useState<Service[]>([])
@@ -30,7 +34,7 @@ export default function Footer() {
   const footerSections = [
     { 
       title: 'Perusahaan', 
-      links: [
+      links: footerData?.quickLinks || [
         { label: 'Tentang Kami', href: '#about' },
         { label: 'Portofolio', href: '#portfolio' },
         { label: 'Klien', href: '#clients' },
@@ -42,7 +46,7 @@ export default function Footer() {
       links: services.map(s => ({
         label: s.title,
         href: '#services'
-      })).slice(0, 4) // Limit to 4 for footer
+      })).slice(0, 4) 
     },
     { 
       title: 'Kontak', 
@@ -63,13 +67,11 @@ export default function Footer() {
     },
   ]
 
-  const dynamicSocials = [
-    { icon: Facebook, href: footerData?.socials?.facebook || '#', label: 'Facebook' },
-    { icon: Instagram, href: footerData?.socials?.instagram || '#', label: 'Instagram' },
-    { icon: Linkedin, href: footerData?.socials?.linkedin || '#', label: 'LinkedIn' },
-    { icon: Twitter, href: footerData?.socials?.twitter || '#', label: 'Twitter' },
-  ].filter(s => s.href !== '#')
-  // Actually, better to show all as before but with real links if available.
+  const dynamicSocials = footerData?.socialLinks?.map(s => ({
+    icon: SOCIAL_ICONS[s.platform] || ExternalLink,
+    href: s.url,
+    label: s.platform
+  })) || []
 
   return (
     <footer className="relative w-full theme-bg-primary border-t border-[var(--divider)] px-4 snap-start">
@@ -97,8 +99,8 @@ export default function Footer() {
                 const Icon = social.icon
                 return (
                   <motion.a key={i} href={social.href} aria-label={social.label}
-                    target={social.href !== '#' ? '_blank' : undefined}
-                    rel={social.href !== '#' ? 'noopener noreferrer' : undefined}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-9 h-9 rounded-lg theme-bg-card border theme-border flex items-center justify-center theme-text-muted hover:theme-accent hover:border-[var(--accent)] transition-all duration-300"
                     whileHover={{ scale: 1.2, rotate: 10, y: -5 }}
                     transition={{ type: 'spring', stiffness: 300 }}>

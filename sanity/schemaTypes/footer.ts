@@ -24,6 +24,56 @@ export default defineType({
       initialValue: 'Membangun dengan Integritas — kontraktor umum dan supplier terpercaya untuk kebutuhan konstruksi korporat Indonesia.',
     }),
     defineField({
+      name: 'socialLinks',
+      title: 'Media Sosial (Bisa Tambah Sendiri)',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { 
+              name: 'platform', 
+              title: 'Platform', 
+              type: 'string', 
+              options: { 
+                list: [
+                  { title: 'Facebook', value: 'Facebook' },
+                  { title: 'Instagram', value: 'Instagram' },
+                  { title: 'LinkedIn', value: 'LinkedIn' },
+                  { title: 'Twitter', value: 'Twitter' },
+                  { title: 'TikTok', value: 'TikTok' },
+                  { title: 'YouTube', value: 'YouTube' },
+                  { title: 'WhatsApp', value: 'WhatsApp' },
+                  { title: 'Email', value: 'Email' },
+                ] 
+              } 
+            },
+            { name: 'url', title: 'URL / Link', type: 'url' }
+          ],
+          preview: {
+            select: {
+              title: 'platform',
+              subtitle: 'url'
+            }
+          }
+        }
+      ]
+    }),
+    defineField({
+      name: 'quickLinks',
+      title: 'Link Perusahaan (Bisa Tambah/Ubah)',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'label', title: 'Nama Link', type: 'string' },
+            { name: 'href', title: 'Tujuan (Contoh: #about atau https://google.com)', type: 'string' }
+          ]
+        }
+      ]
+    }),
+    defineField({
       name: 'copyright',
       title: 'Teks Copyright',
       type: 'string',
@@ -34,17 +84,6 @@ export default defineType({
       title: 'Info Footer (Bawah Kanan)',
       type: 'string',
       initialValue: 'General Contractor & Supplier · Jakarta, Indonesia',
-    }),
-    defineField({
-      name: 'socials',
-      title: 'Media Sosial',
-      type: 'object',
-      fields: [
-        { name: 'facebook', title: 'Facebook URL', type: 'url' },
-        { name: 'instagram', title: 'Instagram URL', type: 'url' },
-        { name: 'linkedin', title: 'LinkedIn URL', type: 'url' },
-        { name: 'twitter', title: 'Twitter URL', type: 'url' },
-      ],
     }),
   ],
 })

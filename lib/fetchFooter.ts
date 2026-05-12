@@ -7,12 +7,8 @@ export interface FooterData {
   description?: string
   copyright?: string
   footerInfo?: string
-  socials?: {
-    facebook?: string
-    instagram?: string
-    linkedin?: string
-    twitter?: string
-  }
+  socialLinks?: Array<{ platform: string; url: string }>
+  quickLinks?: Array<{ label: string; href: string }>
 }
 
 export async function fetchFooter(): Promise<FooterData | null> {
