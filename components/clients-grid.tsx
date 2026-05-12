@@ -20,7 +20,7 @@ export default function ClientsGrid() {
     loadClients()
   }, [])
   return (
-    <section id="clients" className="section-base relative w-full theme-bg-primary py-24 md:py-36 px-4">
+    <section id="clients" className="section-base relative w-full theme-bg-primary py-24 md:py-36 px-4 snap-start">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--divider)] to-transparent" />
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-16">

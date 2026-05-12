@@ -3,6 +3,7 @@
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import { Target, Award } from 'lucide-react'
+import { fetchAbout, AboutData } from '@/lib/fetchAbout'
 
 function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
   const [displayValue, setDisplayValue] = useState(0)
@@ -39,7 +40,40 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
   )
 }
 
+// Fallback data if Sanity is empty or fails
+const defaultData: AboutData = {
+  tagline: 'TENTANG PERUSAHAAN',
+  title: 'Integritas Dalam Setiap Proyek, Kualitas Dalam Setiap Detail',
+  description: 'PT. Abimanyu Abadi adalah kontraktor umum dan supplier terpercaya yang telah melayani klien-klien korporat tier-1 Indonesia selama lebih dari satu dekade. Kami memahami bahwa setiap proyek adalah kombinasi unik dari tantangan teknis, kebutuhan bisnis, dan standar kualitas tertinggi.',
+  stats: [
+    { value: 50, label: 'Proyek Selesai', suffix: '+' },
+    { value: 15, label: 'Klien Korporat', suffix: '+' },
+    { value: 10, label: 'Tahun Pengalaman', suffix: '+' },
+  ],
+  badges: [
+    { name: 'SIUJK', description: 'Jasa Konstruksi' },
+    { name: 'SBU', description: 'Badan Usaha' },
+    { name: 'NIB', description: 'Induk Berusaha' },
+  ],
+  videos: [
+    { title: 'High-Rise Construction', location: 'Jakarta Project', videoId: 'iGCH44aqfcE' },
+    { title: 'Industrial Development', location: 'Surabaya Site', videoId: 'MNg6fr2iKX0' }
+  ]
+}
+
 export default function About() {
+  const [data, setData] = useState<AboutData>(defaultData)
+
+  useEffect(() => {
+    const loadAbout = async () => {
+      const sanityData = await fetchAbout()
+      if (sanityData) {
+        setData(sanityData)
+      }
+    }
+    loadAbout()
+  }, [])
+
   return (
     <section id="about" className="section-base relative w-full theme-bg-secondary py-24 md:py-36 px-4 snap-start">
       <div className="max-w-7xl mx-auto relative z-10">
@@ -54,29 +88,21 @@ export default function About() {
           >
             <div>
               <p className="text-[11px] font-bold tracking-[0.2em] uppercase theme-text-accent mb-4">
-                TENTANG PERUSAHAAN
+                {data.tagline}
               </p>
               <h2 className="text-4xl md:text-5xl font-bold theme-text-heading leading-[1.1] mb-6">
-                Integritas Dalam Setiap Proyek, Kualitas Dalam Setiap Detail
+                {data.title}
               </h2>
               <p className="theme-text-body text-base md:text-lg leading-relaxed mb-10">
-                PT. Abimanyu Abadi adalah kontraktor umum dan supplier terpercaya
-                yang telah melayani klien-klien korporat tier-1 Indonesia selama
-                lebih dari satu dekade. Kami memahami bahwa setiap proyek adalah
-                kombinasi unik dari tantangan teknis, kebutuhan bisnis, dan standar
-                kualitas tertinggi.
+                {data.description}
               </p>
             </div>
 
-            {/* Move Stats and Legal to Left Column */}
+            {/* Stats and Legal */}
             <div className="space-y-16 pt-12 border-t border-[var(--divider)]">
               {/* Premium Executive Stats Row */}
               <div className="flex flex-nowrap items-center justify-between no-scrollbar overflow-x-auto gap-4 sm:gap-0">
-                {[
-                  { value: 50, label: 'Proyek Selesai', suffix: '+' },
-                  { value: 15, label: 'Klien Korporat', suffix: '+' },
-                  { value: 10, label: 'Tahun Pengalaman', suffix: '+' },
-                ].map((stat, i) => (
+                {data.stats.map((stat, i) => (
                   <motion.div 
                     key={i} 
                     initial={{ opacity: 0, y: 10 }} 
@@ -104,7 +130,7 @@ export default function About() {
                 ))}
               </div>
 
-              {/* Legal Badges - Premium Seal Design */}
+              {/* Legal Badges */}
               <div className="relative">
                 <div className="flex items-center gap-4 mb-6">
                   <span className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-[var(--divider)]" />
@@ -113,15 +139,11 @@ export default function About() {
                 </div>
                 
                 <div className="grid grid-cols-3 gap-3">
-                  {[
-                    { name: 'SIUJK', desc: 'Jasa Konstruksi' },
-                    { name: 'SBU', desc: 'Badan Usaha' },
-                    { name: 'NIB', desc: 'Induk Berusaha' },
-                  ].map((cred, i) => (
+                  {data.badges.map((cred, i) => (
                     <div key={i} className="relative group p-4 border theme-border rounded-xl bg-gradient-to-b from-white/[0.05] to-transparent hover:border-[var(--accent)] transition-all duration-500 overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                       <p className="relative font-black theme-text-heading text-xs tracking-tighter mb-1 group-hover:theme-accent transition-colors">{cred.name}</p>
-                      <p className="relative text-[8px] theme-text-muted uppercase font-bold tracking-widest">{cred.desc}</p>
+                      <p className="relative text-[8px] theme-text-muted uppercase font-bold tracking-widest">{cred.description}</p>
                     </div>
                   ))}
                 </div>
@@ -129,7 +151,7 @@ export default function About() {
             </div>
           </motion.div>
 
-          {/* Right Column: Portrait Videos (YouTube Shorts Style) */}
+          {/* Right Column: Videos */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -137,18 +159,7 @@ export default function About() {
             viewport={{ once: true, margin: '-80px' }}
             className="grid grid-cols-2 gap-4 md:gap-6"
           >
-            {[
-              { 
-                title: 'High-Rise Construction', 
-                location: 'Jakarta Project',
-                videoId: 'iGCH44aqfcE' 
-              },
-              { 
-                title: 'Industrial Development', 
-                location: 'Surabaya Site',
-                videoId: 'MNg6fr2iKX0' 
-              }
-            ].map((video, i) => (
+            {data.videos.map((video, i) => (
               <div key={i} className="group relative aspect-[9/16] rounded-2xl overflow-hidden shadow-2xl border theme-border bg-black">
                 {/* YouTube iFrame Embed */}
                 <div className="absolute inset-0 w-full h-full pointer-events-none scale-[1.01]">
@@ -172,7 +183,7 @@ export default function About() {
                   <h3 className="text-white font-bold text-base sm:text-lg leading-[1.2] tracking-tight">{video.title}</h3>
                 </div>
 
-                {/* Cover to catch click if needed / prevent interaction with iframe buttons */}
+                {/* Cover to catch click */}
                 <div className="absolute inset-0 z-10" />
               </div>
             ))}

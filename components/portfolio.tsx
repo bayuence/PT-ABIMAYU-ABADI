@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MapPin, Calendar } from 'lucide-react'
-import { fetchPortfolio, Portfolio } from '@/lib/fetchPortfolio'
+import { fetchPortfolio, type Portfolio as PortfolioItem } from '@/lib/fetchPortfolio'
 import PortfolioGalleryModal from './portfolio-gallery-modal'
 
 const categoryBadge: Record<string, string> = {
@@ -14,7 +14,7 @@ const categoryBadge: Record<string, string> = {
 }
 
 export default function Portfolio() {
-  const [projects, setProjects] = useState<Portfolio[]>([])
+  const [projects, setProjects] = useState<PortfolioItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [activeCategory, setActiveCategory] = useState('semua')
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null)
@@ -35,7 +35,7 @@ export default function Portfolio() {
   const filtered = activeCategory === 'semua' ? projects : projects.filter((p) => p.category === activeCategory)
 
   return (
-    <section id="portfolio" className="section-base relative w-full theme-bg-secondary py-24 md:py-36 px-4">
+    <section id="portfolio" className="section-base relative w-full theme-bg-secondary py-24 md:py-36 px-4 snap-start">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--divider)] to-transparent" />
 
       <div className="max-w-7xl mx-auto relative z-10">

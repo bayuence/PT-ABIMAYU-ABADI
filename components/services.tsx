@@ -21,7 +21,7 @@ export default function Services() {
     loadServices()
   }, [])
   return (
-    <section id="services" className="section-base relative w-full theme-bg-primary py-24 md:py-36 px-4">
+    <section id="services" className="section-base relative w-full theme-bg-primary py-24 md:py-36 px-4 snap-start">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--divider)] to-transparent" />
       <div className="absolute top-[20%] right-0 w-[400px] h-[400px] bg-[var(--accent)]/[0.03] rounded-full blur-[120px]" />
 

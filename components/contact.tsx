@@ -41,7 +41,7 @@ export default function Contact() {
   ]
 
   return (
-    <section id="contact" className="section-base relative w-full theme-bg-secondary py-24 md:py-36 px-4">
+    <section id="contact" className="section-base relative w-full theme-bg-secondary py-24 md:py-36 px-4 snap-start">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--divider)] to-transparent" />
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20">

@@ -9,7 +9,7 @@ import Image from 'next/image'
 import type { CarouselApi } from '@/components/ui/carousel'
 
 interface PortfolioGalleryModalProps {
-  projectId: number
+  projectId: string
   projectName: string
   images: string[]
   onClose: () => void
