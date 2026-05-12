@@ -1,4 +1,4 @@
-import {defineField, defineType} from 'sanity'
+import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'portfolio',
@@ -17,10 +17,10 @@ export default defineType({
       type: 'string',
       options: {
         list: [
-          {title: 'Industri', value: 'industri'},
-          {title: 'Warehouse', value: 'warehouse'},
-          {title: 'Residensial', value: 'residensial'},
-          {title: 'Komersial', value: 'komersial'},
+          { title: 'Industri', value: 'industri' },
+          { title: 'Warehouse', value: 'warehouse' },
+          { title: 'Residensial', value: 'residensial' },
+          { title: 'Komersial', value: 'komersial' },
         ],
       },
       validation: Rule => Rule.required(),
@@ -53,7 +53,7 @@ export default defineType({
       of: [
         {
           type: 'image',
-          options: {hotspot: true},
+          options: { hotspot: true },
         },
       ],
     }),

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MapPin, Calendar } from 'lucide-react'
+import { MapPin, Calendar, Search } from 'lucide-react'
 import { fetchPortfolio, type Portfolio as PortfolioItem } from '@/lib/fetchPortfolio'
 import PortfolioGalleryModal from './portfolio-gallery-modal'
 
@@ -11,6 +11,96 @@ const categoryBadge: Record<string, string> = {
   warehouse: 'bg-blue-500/10 text-blue-500 border-blue-500/20',
   residensial: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
   komersial: 'bg-violet-500/10 text-violet-500 border-violet-500/20',
+}
+
+function ProjectCard({ project, onSelect }: { project: PortfolioItem; onSelect: (id: string) => void }) {
+  const imageUrls = project.images?.map(img => img.asset?.url).filter(Boolean) || []
+  const [currentIdx, setCurrentIdx] = useState(0)
+  const badge = categoryBadge[project.category] || categoryBadge.industri
+
+  useEffect(() => {
+    if (imageUrls.length <= 1) return
+
+    const interval = setInterval(() => {
+      setCurrentIdx((prev) => (prev + 1) % imageUrls.length)
+    }, 4000) // Ganti foto setiap 4 detik
+
+    return () => clearInterval(interval)
+  }, [imageUrls.length])
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.3 }}
+      onClick={() => onSelect(project._id)}
+      className="theme-bg-card border theme-border rounded-2xl group cursor-pointer overflow-hidden hover:border-[var(--accent)] transition-all duration-300 card-hover"
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && onSelect(project._id)}
+    >
+      <div className="relative h-56 overflow-hidden theme-bg-primary">
+        <AnimatePresence mode="wait">
+          {imageUrls[currentIdx] ? (
+            <motion.img
+              key={currentIdx}
+              src={imageUrls[currentIdx]}
+              alt={project.name}
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.8 }}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          ) : (
+            <div className="blueprint-grid" />
+          )}
+        </AnimatePresence>
+        
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
+        <div className="absolute inset-0 bg-[var(--accent)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className={`absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${badge} transition-all duration-300 group-hover:scale-110 backdrop-blur-md z-10`}>
+          {project.category}
+        </div>
+        
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0 z-10">
+          <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center shadow-2xl">
+            <Search className="text-white w-5 h-5" />
+          </div>
+        </div>
+
+        {/* Indicator Bullets (Hanya jika > 1 gambar) */}
+        {imageUrls.length > 1 && (
+          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 z-10 px-4">
+            {imageUrls.map((_, i) => (
+              <div 
+                key={i} 
+                className={`h-1 rounded-full transition-all duration-500 ${
+                  i === currentIdx ? 'w-4 bg-white' : 'w-1 bg-white/40'
+                }`} 
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="p-5 border-t theme-border-subtle">
+        <h3 className="theme-text-heading font-semibold text-sm mb-3 group-hover:theme-accent transition-colors line-clamp-1">{project.name}</h3>
+        <div className="flex items-center gap-4 theme-text-muted text-[10px] sm:text-xs">
+          <span className="flex items-center gap-1.5 transition-all duration-300 group-hover:translate-x-1">
+            <MapPin size={12} className="theme-accent" />
+            {project.location}
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Calendar size={12} className="theme-accent" />
+            {project.year}
+          </span>
+        </div>
+      </div>
+    </motion.div>
+  )
 }
 
 export default function Portfolio() {
@@ -60,39 +150,13 @@ export default function Portfolio() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           <AnimatePresence mode="sync">
-            {filtered.map((project) => {
-              const badge = categoryBadge[project.category] || categoryBadge.industri
-              const imageUrls = project.images.map(img => img.asset?.url).filter(Boolean)
-
-              return (
-                <motion.div key={project._id} layout initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.3 }}
-                  onClick={() => setSelectedProjectId(project._id)}
-                  className="theme-bg-card border theme-border rounded-2xl group cursor-pointer overflow-hidden hover:border-[var(--accent)] transition-all duration-300 card-hover"
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => e.key === 'Enter' && setSelectedProjectId(project._id)}
-                >
-                  <div className="relative h-48 overflow-hidden theme-bg-primary">
-                    <div className="blueprint-grid" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className={`absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${badge} transition-all duration-300 group-hover:scale-110`}>{project.category}</div>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-12 h-12 rounded-xl bg-[var(--accent)]/5 border border-[var(--accent)]/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500 group-hover:bg-[var(--accent)]/20">
-                        <span className="text-[var(--accent)] font-bold text-lg">+</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-5 border-t theme-border-subtle">
-                    <h3 className="theme-text-heading font-semibold text-sm mb-3 group-hover:theme-accent transition-colors">{project.name}</h3>
-                    <div className="flex items-center gap-4 theme-text-muted text-xs">
-                      <span className="flex items-center gap-1.5 transition-all duration-300 group-hover:translate-x-1"><MapPin size={12} />{project.location}</span>
-                      <span className="flex items-center gap-1.5"><Calendar size={12} />{project.year}</span>
-                    </div>
-                  </div>
-                </motion.div>
-              )
-            })}
+            {filtered.map((project) => (
+              <ProjectCard 
+                key={project._id} 
+                project={project} 
+                onSelect={(id) => setSelectedProjectId(id)} 
+              />
+            ))}
           </AnimatePresence>
         </div>
 

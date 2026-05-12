@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogClose, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel'
 import { X } from 'lucide-react'
 import Image from 'next/image'
@@ -40,6 +40,9 @@ export default function PortfolioGalleryModal({
   return (
     <Dialog open={true} onOpenChange={onClose}>
       <DialogContent className="max-w-6xl h-screen md:h-auto md:max-h-[90vh] border-0 bg-black/95 p-0 flex flex-col">
+        <DialogTitle className="sr-only">Galeri Proyek: {projectName}</DialogTitle>
+        <DialogDescription className="sr-only">Kumpulan foto dokumentasi untuk proyek {projectName}</DialogDescription>
+        
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
