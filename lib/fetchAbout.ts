@@ -21,7 +21,7 @@ export interface AboutData {
 }
 
 export async function fetchAbout(): Promise<AboutData | null> {
-  const query = `*[_type == "about"][0] {
+  const query = `*[_type == "about" && !(_id in drafts.**)][0] {
     tagline,
     title,
     description,
