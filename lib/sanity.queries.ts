@@ -1,6 +1,6 @@
 // Hero Slides
 export const heroSlidesQuery = `
-  *[_type == "heroSlide" && !(_id in drafts.**)] | order(order asc) {
+  *[_type == "heroSlide" && !(_id in path("drafts.**"))] | order(order asc) {
     _id,
     title,
     subtitle,
@@ -13,7 +13,7 @@ export const heroSlidesQuery = `
 
 // Services
 export const servicesQuery = `
-  *[_type == "service" && !(_id in drafts.**)] | order(order asc) {
+  *[_type == "service" && !(_id in path("drafts.**"))] | order(order asc) {
     _id,
     title,
     description,
@@ -24,7 +24,7 @@ export const servicesQuery = `
 
 // Portfolio Projects
 export const portfolioQuery = `
-  *[_type == "portfolio" && !(_id in drafts.**)] {
+  *[_type == "portfolio" && !(_id in path("drafts.**"))] {
     _id,
     name,
     category,
@@ -46,7 +46,7 @@ export const portfolioQuery = `
 
 // Portfolio by Category
 export const portfolioByCategoryQuery = (category: string) => `
-  *[_type == "portfolio" && category == "${category}" && !(_id in drafts.**)] {
+  *[_type == "portfolio" && category == "${category}" && !(_id in path("drafts.**"))] {
     _id,
     name,
     category,
@@ -66,7 +66,7 @@ export const portfolioByCategoryQuery = (category: string) => `
 
 // Clients
 export const clientsQuery = `
-  *[_type == "client" && defined(name) && name != "" && !(_id in drafts.**)] | order(order asc) {
+  *[_type == "client" && defined(name) && name != "" && !(_id in path("drafts.**"))] | order(order asc) {
     _id,
     name,
     logo {
@@ -83,7 +83,7 @@ export const clientsQuery = `
 
 // Credentials
 export const credentialsQuery = `
-  *[_type == "credential" && !(_id in drafts.**)] | order(order asc) {
+  *[_type == "credential" && !(_id in path("drafts.**"))] | order(order asc) {
     _id,
     label,
     value,
@@ -94,7 +94,7 @@ export const credentialsQuery = `
 
 // Contact Info (single document)
 export const contactInfoQuery = `
-  *[_type == "contactInfo" && !(_id in drafts.**)][0] {
+  *[_type == "contactInfo" && !(_id in path("drafts.**"))][0] {
     _id,
     title,
     phones,
