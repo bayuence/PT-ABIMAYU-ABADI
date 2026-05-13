@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Larang bot masuk ke Sanity Studio
+Disallow: /studio/
+
+Sitemap: https://abimayuabadi.com/sitemap.xml
