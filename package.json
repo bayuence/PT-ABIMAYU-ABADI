@@ -7,7 +7,7 @@
     "dev:sanity": "sanity dev",
     "dev:all": "concurrently -n \"Next,Sanity\" -c \"cyan,yellow\" \"next dev\" \"sanity dev\"",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production node server.js",
     "lint": "eslint ."
   },
   "dependencies": {
